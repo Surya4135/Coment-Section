@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="app.js"></script>
+    <title>Comment section</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form_container hidden">
+        <div class="cancel_button">
+          <button class="form_close_button" id="formCloseIcon">&times;</button>
+        </div>
+        <form id="myForm" class="form">
+          <div class="user_name">
+            <label>Name</label>
+            <input required type="text" name="name" id="name" />
+          </div>
+
+          <div class="time">
+            <label>time</label>
+            <input type="text" required name="time" id="time" />
+          </div>
+          <div class="like_count">
+            <label>Like count</label>
+            <input type="number" required name="likeCount" id="likeCount" />
+          </div>
+          <div class="comment">
+            <label>Comment</label>
+            <textarea
+              placeholder="Add a comment"
+              name="comment"
+              id="comment"
+            ></textarea>
+          </div>
+          <div>
+            <button type="submit" id="send_button" onsubmit="return false">
+              SEND
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="footer">
+        <button id="footer_add_button">ADD A COMMENT...</button>
+      </div>
+    </div>
+  </body>
+</html>

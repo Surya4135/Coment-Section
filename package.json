@@ -1,0 +1,15 @@
+{
+  "name": "coment-section",
+  "version": "1.0.0",
+  "description": "1.Need to have a add comment button in screen when clicked on it a form should appear in dialog and take the details of the comment needed 2.No need to implement reply for the reply messages as it will be more complex",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve-json": "json-server --watch data_base.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^0.17.0"
+  }
+}
