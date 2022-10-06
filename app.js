@@ -322,5 +322,3 @@ setTimeout(() => {
 
 
 renderComments();
-
-console.log(commentValues)
