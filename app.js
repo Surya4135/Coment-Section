@@ -3,7 +3,6 @@ const formToggle = () => {
   document.querySelector(".form_container").classList.toggle("hidden");
 };
 
-
 // Add button - onclick
 document
   .getElementById("footer_add_button")
@@ -13,7 +12,7 @@ document
 document.getElementById("formCloseIcon")?.addEventListener("click", formToggle);
 
 // form onSubmit - Get form values and send to function
-document.getElementById('myForm').addEventListener('submit', function (evt) {
+document.getElementById('myForm')?.addEventListener('submit', function (evt) {
   evt.preventDefault();
   let formValue = {
     name: document.getElementById("name").value.trim(),
@@ -24,6 +23,7 @@ document.getElementById('myForm').addEventListener('submit', function (evt) {
     replyList: [],
   };
   sendFormValueToJson(formValue);
+  // formToggle()
 })
 
 // common fetch API call
@@ -39,9 +39,7 @@ const commonFetch = ((id, body, methodName) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body)
-  }).then((response) => response.json())
-    .then((data) => console.log('Reply deleted'))
-    .catch((e) => console.log(e))
+  })
 })
 
 
@@ -73,11 +71,11 @@ const renderCommentsHTML = (commentValues) => {
               <div class="like_section">
                 <div class="like_section_container">
                   <div class="increase_like_button" id=${`increment${id}`}>
-                    <button class="like_button"><i class="fa fa-plus"></i></button>
+                    <button class="like_button"><img src="/images/icon-plus.svg" alt=""/></button>
                   </div>
                   <div class="like_count">${likeCount}</div>
                   <div class="decrease_like_button" id=${`decrement${id}`}>
-                    <button class="dislike_button"><i class="fa fa-minus"></i></button>
+                    <button class="dislike_button"><img src="/images/icon-minus.svg" alt=""/></button>
                   </div>
                 </div>
               </div>
@@ -96,7 +94,7 @@ const renderCommentsHTML = (commentValues) => {
                   </div>
                   <div class="comment_header_right">
                     <div class="reply_button" id=reply_toggle${id}>
-                      <button type="submit"><i class="fa fa-reply"></i> Reply</button>
+                      <button type="submit"><img src="/images/icon-reply.svg" /> Reply</button>
                     </div>
                   </div>
                 </div>
@@ -117,9 +115,8 @@ const renderCommentsHTML = (commentValues) => {
                   <textarea
                     class="add_reply_box_textarea"
                     rows="4"
-                    placeholder="Add a reply..."
                     id="get_reply${id}"
-                    >@${name}</textarea>
+                    >@${name} </textarea>
                 </div>
                 <div class="reply_button" id="reply_submit${id}">
                   <button type="submit">REPLY</button>
@@ -132,13 +129,74 @@ const renderCommentsHTML = (commentValues) => {
   });
 }
 
+let date = new Date()
+const renderReplyList = (replyList, id, name) => {
+  replyList?.map(({ description = "", replyLikeCount }, index) => {
+    let html = `<div class="reply_main_container">
+          <div class="reply_section" id="reply_section${id}${index}">
+            <div class="like_section">
+              <div class="like_section_container">
+                <div class="increase_like_button" id="increment_reply${id}${index}">
+                  <button><img src="/images/icon-plus.svg" alt=""/></button>
+                </div>
+                <div class="like_count">${replyLikeCount}</div>
+                <div class="decrease_like_button" id="decrement_reply${id}${index}">
+                  <button><img src="/images/icon-minus.svg" alt=""/></button>
+                </div>
+              </div>
+            </div>
+            <div class="reply_details">
+              <div class="reply_header">
+                <div class="reply_header_left">
+                  <div class="user_image">
+                    <img
+                      src="/images/avatars/image-juliusomo.png"
+                      alt="Profile"
+                    />
+                  </div>
+                  <div class="user_name">
+                    <p>juliusomo</p>
+                  </div>
+                  <div class="you"><p>you</p></div>
+                  <div class="time">
+                    <p>${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}</p>
+                  </div>
+                </div>
+                <div class="reply_header_right">
+                  <button type="submit" class="delete_button" id="delete_reply${id}${index}">
+                  <img src="/images/icon-delete.svg" alt=""/> Delete
+                  </button>
+                  <button type="submit" class="edit_button" id="edit_reply${id}${index}">
+                  <img src="/images/icon-edit.svg" alt=""/> Edit
+                  </button>
+                </div>
+              </div>
+      
+              <div class="reply_message" id="reply_message${id}${index}" >
+                <p>
+                  <span>@${name}</span> ${description}
+                </p>
+              </div>
+
+              <div class="reply_message_edit hidden_reply_message_edit" id="reply_message_edit${id}${index}">
+               <textarea id="reply_edit_message_area${id}${index}"> @${name} ${description}</textarea>
+               <div class ="update_button">
+               <button type="submit" id="reply_message_submit${id}${index}">UPDATE</button>
+             </div>
+              </div>
+            </div>
+          </div>
+        </div>`
+    document.querySelector(`.comment${id}`).insertAdjacentHTML("afterend", html);
+  })
+
+}
 
 // Updating likecount of comment to JSON 
 const updateLikeCount_comment = ((value, increment) => {
   let bodyValue = {
-    "likeCount": increment ? +value.likeCount + 1 : +value.likeCount - 1,
+    "likeCount": increment ? +value.likeCount + 1 : (value.likeCount < 1 ? value.likeCount = 0 : +value.likeCount - 1)
   }
-
   commonFetch(value.id, bodyValue, 'PATCH')
 });
 
@@ -146,13 +204,11 @@ const updateLikeCount_comment = ((value, increment) => {
 const updateLikeCount_reply = ((index, value, increment) => {
   let reply_likecount = value.replyList[index].replyLikeCount;
   let data = value.replyList
-  data[index].replyLikeCount = increment ? +reply_likecount + 1 : +reply_likecount - 1
+  data[index].replyLikeCount = increment ? +reply_likecount + 1 : (reply_likecount < 1 ? reply_likecount = 0 : +reply_likecount - 1)
 
   let body = {
-    ...value,
     "replyList": data,
   }
-
   commonFetch(value.id, body, 'PATCH')
 })
 
@@ -181,81 +237,15 @@ const deleteReplyfromJSON = (parentIndex, childIndex) => {
   commonFetch(commentValues[parentIndex].id, bodyValue, 'PATCH')
 }
 
+// Editing replylist from db
 const editReplyfromJSON = (parentIndex, index, textValue) => {
   let allReply = commentValues[parentIndex].replyList
   allReply[index].description = textValue.replace(`@${commentValues[parentIndex].name}`, "").trim()
   let bodyValue = {
-
     "replyList": allReply,
   }
   commonFetch(commentValues[parentIndex].id, bodyValue, 'PATCH')
 }
-
-
-
-let date = new Date()
-const renderReplyList = (replyList, id, name) => {
-  replyList?.map(({ description = "", replyLikeCount }, index) => {
-    let html = `<div class="reply_main_container">
-          <div class="reply_section">
-            <div class="like_section">
-              <div class="like_section_container">
-                <div class="increase_like_button" id="increment_reply${id}${index}">
-                  <button><i class="fa fa-plus"></i></button>
-                </div>
-                <div class="like_count">${replyLikeCount}</div>
-                <div class="decrease_like_button" id="decrement_reply${id}${index}">
-                  <button><i class="fa fa-minus"></i></button>
-                </div>
-              </div>
-            </div>
-            <div class="reply_details">
-              <div class="reply_header">
-                <div class="reply_header_left">
-                  <div class="user_image">
-                    <img
-                      src="/images/avatars/image-juliusomo.png"
-                      alt="Profile"
-                    />
-                  </div>
-                  <div class="user_name">
-                    <p>juliusomo</p>
-                  </div>
-                  <div class="you"><p>you</p></div>
-                  <div class="time">
-                    <p>${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}</p>
-                  </div>
-                </div>
-                <div class="reply_header_right">
-                  <button type="submit" class="delete_button" id="delete_reply${id}${index}">
-                    <i class="fa fa-trash"></i> Delete
-                  </button>
-                  <button type="submit" class="edit_button" id="edit_reply${id}${index}">
-                    <i class="fa fa-pencil"></i> Edit
-                  </button>
-                </div>
-              </div>
-      
-              <div class="reply_message" id="reply_message${id}${index}" >
-                <p>
-                  <span>@${name}</span> ${description}
-                </p>
-              </div>
-
-              <div class="reply_message_edit hidden_reply_message_edit" id="reply_message_edit${id}${index}">
-               <textarea id="reply_edit_message_area${id}${index}"> @${name} ${description}</textarea>
-               <div class ="update_button">
-               <button type="submit" id="reply_message_submit${id}${index}">UPDATE</button>
-             </div>
-              </div>
-            </div>
-          </div>
-        </div>`
-    document.querySelector(`.comment${id}`).insertAdjacentHTML("afterend", html);
-  })
-
-}
-
 
 setTimeout(() => {
   commentValues?.map((val, parentIndex) => {
@@ -298,17 +288,31 @@ setTimeout(() => {
         // delete reply
         document.getElementById(`delete_reply${val.id}${index}`).addEventListener('click', (e) => {
           e.preventDefault()
-          deleteReplyfromJSON(parentIndex, index)
-        })
+          document.querySelector('.delete_modal').classList.remove('hidden_modal');
+          document.querySelector(`.container`).style.opacity = 0.4;
+
+          document.querySelector('.sure_delete_button').addEventListener('click', () => {
+            deleteReplyfromJSON(parentIndex, index)
+            document.querySelector(`.container`).style.opacity = 1;
+          })
+
+          document.querySelector('.dont_delete_button').addEventListener('click', () => {
+            document.querySelector('.delete_modal').classList.add('hidden_modal');
+            document.querySelector('.container').style.opacity = 1;
+          })
+
+        }) //Delete reply ended
 
         // Edit reply
         document.getElementById(`edit_reply${val.id}${index}`).addEventListener('click', () => {
           document.getElementById(`reply_message${val.id}${index}`).classList.toggle('hidden_reply_message')
           document.getElementById(`reply_message_edit${val.id}${index}`).classList.toggle('hidden_reply_message_edit')
+          document.getElementById(`reply_section${val.id}${index}`).style.height = '180px'
         })
         document.getElementById(`reply_message_submit${val.id}${index}`).addEventListener('click', () => {
           let ReplyValue = document.getElementById(`reply_edit_message_area${val.id}${index}`).value
           editReplyfromJSON(parentIndex, index, ReplyValue)
+          document.getElementById(`reply_section${val.id}${index}`).style.height = 'auto';
           document.getElementById(`reply_message${val.id}${index}`).classList.toggle('hidden_reply_message')
           document.getElementById(`reply_message_edit${val.id}${index}`).classList.toggle('hidden_reply_message_edit')
         }) //Edit reply end here
@@ -318,3 +322,5 @@ setTimeout(() => {
 
 
 renderComments();
+
+console.log(commentValues)
