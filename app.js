@@ -23,7 +23,7 @@ document.getElementById('myForm')?.addEventListener('submit', function (evt) {
     replyList: [],
   };
   sendFormValueToJson(formValue);
-  // formToggle()
+  formToggle()
 })
 
 // common fetch API call
