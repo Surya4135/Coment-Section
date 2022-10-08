@@ -371,7 +371,7 @@
 
 .container .reply_main_container .reply_section .reply_details .reply_header_right .delete_button:hover {
   cursor: pointer;
-  color: #ffb8bb;
+  opacity: 0.6;
 }
 
 .container .reply_main_container .reply_section .reply_details .reply_header_right .edit_button {
@@ -622,6 +622,11 @@
   border: none;
 }
 
+.delete_modal .delete_comment .button_for_delete .dont_delete_button:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
 .delete_modal .delete_comment .button_for_delete .sure_delete_button {
   background-color: #ed6468;
   color: white;
@@ -629,6 +634,11 @@
   margin: 10px;
   border-radius: 6px;
   border: none;
+}
+
+.delete_modal .delete_comment .button_for_delete .sure_delete_button:hover {
+  cursor: pointer;
+  opacity: 0.6;
 }
 
 .hidden_modal {

@@ -308,7 +308,7 @@ $White: hsl(0, 0%, 100%);
               margin-left: 3vw;
               &:hover {
                 cursor: pointer;
-                color: $Pale_red;
+                opacity: 0.6;
               }
             }
 
@@ -513,6 +513,11 @@ $White: hsl(0, 0%, 100%);
           margin: 10px;
           border-radius: 6px;
           border: none;
+
+          &:hover{
+            cursor: pointer;
+            opacity: 0.6;
+          }
       }
       .sure_delete_button{
         background-color: $Soft_Red;
@@ -520,12 +525,16 @@ $White: hsl(0, 0%, 100%);
         padding: 12px 20px;
         margin: 10px;
         border-radius: 6px;
-          border: none;
+        border: none;
+
+          &:hover{
+            cursor: pointer;
+            opacity: 0.6;
+          }
       }
     }
   }
 }
-
 .hidden_modal{
   display: none;
 }

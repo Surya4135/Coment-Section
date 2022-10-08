@@ -4,7 +4,7 @@
       "name": "amyrobson",
       "imageUrl": "/images/avatars/image-amyrobson.png",
       "time": "12 Minutes ago",
-      "likeCount": 8,
+      "likeCount": 9,
       "comment": "All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.",
       "replyList": [],
       "id": 1
@@ -26,6 +26,25 @@
       "comment": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
       "replyList": [],
       "id": 3
+    },
+    {
+      "name": "amyrobson",
+      "imageUrl": "/images/avatars/image-amyrobson.png",
+      "time": "5 mins ago ",
+      "likeCount": 12,
+      "comment": "Hello every one",
+      "replyList": [],
+      "id": 4
+    },
+    {
+      "name": "juliusomo",
+      "imageUrl": "/images/avatars/image-juliusomo.png",
+      "time": "5 days ago",
+      "likeCount": "30",
+      "comment": "Checking from comment box",
+      "replyList": [],
+      "id": 5
     }
-  ]
+  ],
+  "userReplyList": []
 }
